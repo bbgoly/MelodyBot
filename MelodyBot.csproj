@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>nino_e3.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="logs\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="bin\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="nino_e3.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00720" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00720" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.0.0-nightly-00720" />
+    <PackageReference Include="DSharpPlus.Lavalink" Version="4.0.0-nightly-00720" />
+    <PackageReference Include="LiteDB" Version="5.0.9" />
+  </ItemGroup>
+
+</Project>
