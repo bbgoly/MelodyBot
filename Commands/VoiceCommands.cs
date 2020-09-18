@@ -5,11 +5,9 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Lavalink;
 using MelodyBot.Attributes;
-using MelodyBot.Entities;
 using MelodyBot.Enums;
 using MelodyBot.Exceptions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -154,13 +152,25 @@ namespace MelodyBot.Commands
         }
 
         [Command("Pause"), IsTrackNull("There are currently no tracks to pause!", "Paused the player!")]
-        public async Task PauseAsync(CommandContext _) => await LavalinkConnection.PauseAsync();
+        public async Task PauseAsync(CommandContext ctx)
+        {
+            await LavalinkConnection.PauseAsync();
+            await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":pause_button:"));
+        }
 
         [Command("Stop"), Aliases("St"), IsTrackNull("There are currently no tracks to stop!", "Stopped the player!")]
-        public async Task StopAsync(CommandContext _) => await LavalinkConnection.StopAsync(); // Have it remove everything from queue etc.
+        public async Task StopAsync(CommandContext ctx)
+        {
+            await LavalinkConnection.StopAsync(); // Have it remove everything from queue etc.
+            await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":stop_button:"));
+        }
 
         [Command("Resume"), Aliases("Res", "Continue"), IsTrackNull("There are currently no tracks to resume!", "Resumed playback!")] // Add descriptions, params, etc.
-        public async Task PlayAsync(CommandContext _) => await LavalinkConnection.ResumeAsync();
+        public async Task PlayAsync(CommandContext ctx)
+        {
+            await LavalinkConnection.ResumeAsync();
+            await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":play_pause:"));
+        }
 
         [Command("FastForward"), Aliases("FF", "+"), IsTrackNull("There are no tracks to fastforward!")]
         public async Task FastForwardAsync(CommandContext ctx, double offset = 5.0)
@@ -174,6 +184,13 @@ namespace MelodyBot.Commands
         {
             await LavalinkConnection.SeekAsync(LavalinkConnection.CurrentState.PlaybackPosition - TimeSpan.FromSeconds(Math.Abs(offset)));
             await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":rewind:"));
+        }
+
+        [Command("Restart"), Aliases("Re", "Again"), IsTrackNull("There are no tracks to restart!")]
+        public async Task RestartAsync(CommandContext ctx)
+        {
+            await LavalinkConnection.SeekAsync(TimeSpan.Zero);
+            await ctx.Message.CreateReactionAsync(DiscordEmoji.FromName(ctx.Client, ":arrows_counterclockwise:"));
         }
 
         [Command("Playback"), Aliases("Mode", "M", "L")]

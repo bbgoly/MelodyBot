@@ -7,9 +7,6 @@ namespace MelodyBot.Entities
 {
     public class GuildData
     {
-        //public DiscordGuild Guild { get; }
-
-        //public List<MemberData> Members { get; private set; }
         public Dictionary<DiscordUser, MemberData> Members { get; }
 
         public BotQueue Queue { get; private set; }
@@ -25,6 +22,11 @@ namespace MelodyBot.Entities
         public void AddMember(DiscordUser member)
         {
             Members.Add(member, new MemberData());
+        }
+
+        public void RetrieveOrCreate()
+        {
+            
         }
     }
 

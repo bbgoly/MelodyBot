@@ -16,7 +16,7 @@ namespace MelodyBot.IO
         {
             if (!CachedJson.ContainsKey(key))
             {
-                using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
                 {
                     using (StreamReader reader = new StreamReader(stream, new UTF8Encoding(false)))
                     {

@@ -11,6 +11,11 @@ namespace MelodyBot
         {
             if (!e.Author.IsBot && !e.Channel.IsPrivate)
             {
+                if (!Melody.GuildsData.ContainsKey(e.Guild))
+                {
+                    Melody.GuildsData[e.Guild].RetrieveOrCreate();
+                }
+
                 // Implement PrefixResolver here
                 int prefixLength = e.Message.Content.StartsWith("<@") ? e.Message.GetMentionPrefixLength(e.Client.CurrentUser) : e.Message.GetStringPrefixLength(Melody.BotConfig.DefaultPrefix);
                 if (prefixLength > -1)
@@ -31,8 +36,6 @@ namespace MelodyBot
             }
             await Task.CompletedTask; // For now
         }
-
-        //public static async Task CommandExecutedAsync(CommandExecutionEventArgs e) => await e.Context.Message.CreateReactionAsync(DiscordEmoji.FromName(e.Context.Client, ":thumbsup:"));
 
         /* \n\nYou need: {Formatter.InlineCode(string.Join(", ", "e"))}
          * public static async Task CommandErroredAsync(CommandErrorEventArgs e) => 

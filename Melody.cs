@@ -1,7 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Lavalink;
 using DSharpPlus.Net;
@@ -17,20 +16,19 @@ namespace MelodyBot
 {
     public class Melody
     {
-        private static DiscordClient Client { get; set; }
+        private static DiscordClient Client { get; }
 
-        private static CommandsNextExtension Commands { get; set; }
+        public static BotConfiguration BotConfig { get; }
 
-        private static InteractivityExtension Interactivity { get; set; }
+        private static CommandsNextExtension Commands { get; }
 
-        public static LavalinkNodeConnection LavalinkNode { get; set; }
+        public static Dictionary<DiscordGuild, GuildData> GuildsData { get; }
 
-        public static Dictionary<DiscordGuild, GuildData> GuildsData { get; set; }
+        public static LavalinkNodeConnection LavalinkNode { get; private set; }
 
-        public static BotConfiguration BotConfig { get; } = BotConfiguration.Setup();
-
-        public Melody()
+        static Melody()
         {
+            BotConfig = BotConfiguration.Setup();
             Client = new DiscordClient(new DiscordConfiguration
             {
                 AutoReconnect = true,
@@ -46,12 +44,9 @@ namespace MelodyBot
                 UseDefaultCommandHandler = false
             });
 
-            Interactivity = Client.UseInteractivity(new InteractivityConfiguration
-            {
-                Timeout = TimeSpan.FromSeconds(30)
-            });
-
-            //GuildsData = new Dictionary<DiscordGuild, GuildData>();
+            Client.UseInteractivity(new InteractivityConfiguration());
+            
+            GuildsData = new Dictionary<DiscordGuild, GuildData>();
         }
 
         public async Task RunAsync()
@@ -61,14 +56,11 @@ namespace MelodyBot
             Client.GuildAvailable += ClientEvents.GuildAvailableAsync;
             Client.GuildDownloadCompleted += ClientEvents.GuildDownloadCompletedAsync;
 
-            //Client.MessageCreated += ClientEvents.MessageCreatedAsync;
             Client.GuildCreated += ClientEvents.GuildCreatedAsync;
             Client.GuildDeleted += ClientEvents.GuildDeletedAsync;
             Client.GuildUnavailable += ClientEvents.GuildUnavailableAsync;
 
             Client.MessageCreated += CommandEvents.HandleCommandsAsync;
-            //Commands.CommandExecuted += CommandEvents.CommandExecutedAsync;
-            //Commands.CommandErrored += CommandEvents.CommandErroredAsync;
 
             Commands.RegisterCommands(GetType().Assembly);
             Commands.SetHelpFormatter<HelpFormatter>();

@@ -53,18 +53,18 @@ namespace MelodyBot.Events
             return Task.CompletedTask;
         }
 
-        //public static async Task MessageCreatedAsync(MessageCreateEventArgs e)
-        //{
-        //    if (!Melody.GuildsData.ContainsKey(e.Guild))
-        //    {
-        //        Melody.GuildsData.Add(e.Guild, new GuildData());
-        //        Melody.GuildsData[e.Guild].AddMember(e.Author);
-        //    }
-        //    else if (!Melody.GuildsData[e.Guild].Members.ContainsKey(e.Author))
-        //    {
-        //        Melody.GuildsData[e.Guild].AddMember(e.Author);
-        //    }
-        //    await Task.CompletedTask;
-        //}
+        public static async Task MessageCreatedAsync(MessageCreateEventArgs e)
+        {
+            if (!Melody.GuildsData.ContainsKey(e.Guild))
+            {
+                Melody.GuildsData.Add(e.Guild, new GuildData());
+                Melody.GuildsData[e.Guild].AddMember(e.Author);
+            }
+            else if (!Melody.GuildsData[e.Guild].Members.ContainsKey(e.Author))
+            {
+                Melody.GuildsData[e.Guild].AddMember(e.Author);
+            }
+            await Task.CompletedTask;
+        }
     }
 }
