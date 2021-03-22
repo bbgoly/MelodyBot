@@ -1,6 +1,6 @@
 {
-  "Token": "NzI0OTQxMTYzMjIzNTgwNzc0.Xw-yyw.JRIjkgHpoexbRMRCl7R6gPi6JD4",
+  "Token": "very.secret.token",
   "DefaultPrefix": ">>",
-  "DefaultWelcomeMessage": "omg it $Username",
-  "DefaultLeaveMessage": "dum nob $Username left"
+  "DefaultWelcomeMessage": "$Username joined!",
+  "DefaultLeaveMessage": "$Username left!"
 }
